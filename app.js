@@ -116,7 +116,7 @@
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'cell' + (isMarked ? ' marked' : '') + (isFree ? ' free' : '');
-      btn.style.setProperty('--cell-tint', PALETTE[idx % PALETTE.length] + '55');
+      btn.style.setProperty('--cell-tint', PALETTE[idx % PALETTE.length]);
       btn.style.setProperty('--cell-rotate', ((Math.random() * 8) - 4).toFixed(2) + 'deg');
       btn.setAttribute('data-index', String(idx));
       btn.setAttribute('role', 'gridcell');
