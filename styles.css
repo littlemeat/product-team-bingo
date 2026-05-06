@@ -27,7 +27,7 @@ body {
     radial-gradient(circle at 88% 88%, var(--yellow) 2px, transparent 3px),
     radial-gradient(circle at 52% 52%, var(--purple) 2px, transparent 3px);
   background-size: 80px 80px, 110px 110px, 90px 90px, 130px 130px, 70px 70px;
-  animation: drift 40s linear infinite;
+  animation: drift 18s linear infinite;
   position: relative;
 }
 
@@ -49,7 +49,7 @@ body::before {
   background: radial-gradient(circle, var(--pink), transparent 70%);
   top: -10vmin;
   left: -10vmin;
-  animation: float-a 18s ease-in-out infinite;
+  animation: float-a 12s ease-in-out infinite;
 }
 
 body::after {
@@ -58,26 +58,28 @@ body::after {
   background: radial-gradient(circle, var(--cyan), transparent 70%);
   bottom: -15vmin;
   right: -15vmin;
-  animation: float-b 22s ease-in-out infinite;
+  animation: float-b 14s ease-in-out infinite;
 }
 
 main.main { position: relative; z-index: 1; }
 
 @keyframes drift {
   0%   { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
-  100% { background-position: 80px 40px, -110px 55px, 90px -45px, -130px -65px, 70px 35px; }
+  100% { background-position: 800px 480px, -880px 660px, 720px -540px, -1040px -780px, 700px 560px; }
 }
 
 @keyframes float-a {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33%      { transform: translate(40vw, 30vh) scale(1.3); }
-  66%      { transform: translate(60vw, 70vh) scale(0.8); }
+  25%      { transform: translate(70vw, 25vh) scale(1.5); }
+  50%      { transform: translate(85vw, 80vh) scale(0.6); }
+  75%      { transform: translate(20vw, 60vh) scale(1.3); }
 }
 
 @keyframes float-b {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33%      { transform: translate(-50vw, -40vh) scale(0.7); }
-  66%      { transform: translate(-30vw, -70vh) scale(1.4); }
+  25%      { transform: translate(-60vw, -30vh) scale(0.7); }
+  50%      { transform: translate(-20vw, -85vh) scale(1.5); }
+  75%      { transform: translate(-80vw, -50vh) scale(0.9); }
 }
 
 .header {
@@ -121,12 +123,6 @@ main.main { position: relative; z-index: 1; }
   margin-bottom: 18px;
 }
 
-.footer {
-  display: flex;
-  justify-content: center;
-  margin-top: 56px;
-  padding-bottom: 24px;
-}
 
 .size-selector {
   display: flex;
@@ -159,26 +155,32 @@ main.main { position: relative; z-index: 1; }
 }
 
 .new-card-btn {
-  font-family: 'Comic Sans MS', cursive;
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 100;
+  font-family: 'Impact', 'Arial Black', sans-serif;
   font-size: 14px;
-  letter-spacing: 0.5px;
-  padding: 8px 18px;
-  border: 2px dashed var(--black);
+  letter-spacing: 1px;
+  padding: 10px 16px;
+  border: 3px solid var(--black);
   border-radius: 999px;
-  background: var(--paper);
+  background: linear-gradient(135deg, var(--yellow) 0%, var(--tangerine) 100%);
   color: var(--black);
   cursor: pointer;
-  opacity: 0.7;
-  transition: opacity 0.15s ease, transform 0.12s ease;
+  box-shadow: 3px 3px 0 var(--black);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  text-transform: uppercase;
 }
 
 .new-card-btn:hover {
-  opacity: 1;
-  transform: scale(1.05);
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--black);
 }
 
 .new-card-btn:active {
-  transform: scale(0.96);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--black);
 }
 
 .grid {
@@ -200,7 +202,8 @@ main.main { position: relative; z-index: 1; }
   border: 3px solid var(--black);
   border-radius: 10px;
   background: var(--paper);
-  background: color-mix(in srgb, var(--cell-tint, var(--paper)) 32%, var(--paper));
+  background: color-mix(in srgb, var(--cell-tint, var(--paper)) 60%, transparent);
+  backdrop-filter: blur(2px);
   cursor: pointer;
   font-family: 'Trebuchet MS', sans-serif;
   font-weight: 700;

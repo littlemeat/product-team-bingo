@@ -37,5 +37,16 @@ window.PHRASES = [
   "zařadí item do parking lotu",
   "prokritizuje font na slidu",
   "řekne 'to je nice-to-have'",
-  "začne větu 'já bych...'"
+  "začne větu 'já bych...'",
+  // Marie's additions
+  "přijmutej hover",
+  "jde si pro vodu",
+  "jde si vyzvednout wolt",
+  "to nám víc aut neprodá",
+  // Magdalena's additions
+  "pojďme dál prosím",
+  "odpovídáš na dotaz, nedá ti dopovědět a už se ptá někoho jiného na něco",
+  "to jsem určitě neschválil/neřekl",
+  "no, tak co s tím uděláme?",
+  "pohádal jsem se o tom s Kubou"
 ];
