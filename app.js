@@ -25,6 +25,7 @@
       var size = parsed.size;
       var indices = parsed.indices;
       var marks = parsed.marks;
+      var won = parsed.won === true;
       if ([3, 4, 5].indexOf(size) === -1) return null;
       var total = size * size;
       if (!Array.isArray(indices) || indices.length !== total) return null;
@@ -37,7 +38,7 @@
       for (var j = 0; j < marks.length; j++) {
         if (typeof marks[j] !== 'boolean') return null;
       }
-      return { size: size, indices: indices, marks: marks };
+      return { size: size, indices: indices, marks: marks, won: won };
     } catch (e) {
       return null;
     }
@@ -87,14 +88,14 @@
         marks.push(false);
       }
     }
-    return { size: size, indices: indices, marks: marks };
+    return { size: size, indices: indices, marks: marks, won: false };
   }
 
   // ---------- Render ----------
 
   function render() {
     var grid = document.getElementById('grid');
-    grid.className = 'grid grid-' + state.size;
+    grid.className = 'grid grid-' + state.size + (state.won ? ' locked' : '');
     grid.innerHTML = '';
 
     var btns = document.querySelectorAll('.size-btn');
@@ -242,6 +243,7 @@
   // ---------- Events ----------
 
   function onCellClick(e) {
+    if (state.won) return;
     var btn = e.target.closest ? e.target.closest('.cell') : null;
     if (!btn || btn.classList.contains('free')) return;
     var idx = parseInt(btn.getAttribute('data-index'), 10);
@@ -250,17 +252,18 @@
     var before = findCompleteLineIds();
     state.marks[idx] = !state.marks[idx];
     var after = findCompleteLineIds();
-    saveState();
-    render();
 
     var beforeSet = {};
     for (var i = 0; i < before.length; i++) beforeSet[before[i]] = true;
+    var newBingo = false;
     for (var j = 0; j < after.length; j++) {
-      if (!beforeSet[after[j]]) {
-        celebrate();
-        break;
-      }
+      if (!beforeSet[after[j]]) { newBingo = true; break; }
     }
+    if (newBingo) state.won = true;
+
+    saveState();
+    render();
+    if (newBingo) celebrate();
   }
 
   function onSizeChange(e) {

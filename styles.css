@@ -220,6 +220,9 @@ main.main { position: relative; z-index: 1; }
 .cell:hover { transform: scale(1.04); }
 .cell:focus-visible { outline: 4px solid var(--purple); outline-offset: 2px; }
 
+.grid.locked .cell { cursor: default; pointer-events: none; }
+.grid.locked .cell:not(.marked) { opacity: 0.55; }
+
 .cell-text {
   display: block;
   width: 100%;
