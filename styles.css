@@ -84,7 +84,7 @@ main.main { position: relative; z-index: 1; }
 
 .header {
   text-align: center;
-  padding: 20px 8px 8px;
+  padding: 70px 8px 8px;
 }
 
 .title {
@@ -134,9 +134,10 @@ main.main { position: relative; z-index: 1; }
 }
 
 .size-btn {
-  font-family: 'Comic Sans MS', cursive;
+  font-family: 'Arial Black', 'Helvetica Bold', system-ui, sans-serif;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 900;
+  letter-spacing: 0.5px;
   padding: 9px 20px;
   border: none;
   border-radius: 999px;
@@ -338,18 +339,17 @@ main.main { position: relative; z-index: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body, body::before, body::after,
   .title, .cell.marked, .celebration-text, .confetti-piece { animation: none !important; }
   .cell { transition: none; }
   .confetti { display: none; }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 480px) {
   .main { padding: 8px 10px 80px; }
   .grid { gap: 5px; }
   .grid-5 { gap: 4px; }
   .cell { border-width: 2px; padding: 3px; border-radius: 8px; }
   .cell.marked { border-width: 3px; }
   .cell.marked::after { font-size: 64px; }
-  .new-card-btn { font-size: 20px; padding: 12px 28px; }
+  .new-card-btn { font-size: 11px; padding: 7px 12px; letter-spacing: 0.5px; border-width: 2px; }
 }

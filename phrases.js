@@ -48,5 +48,8 @@ window.PHRASES = [
   "odpovídáš na dotaz, nedá ti dopovědět a už se ptá někoho jiného na něco",
   "to jsem určitě neschválil/neřekl",
   "no, tak co s tím uděláme?",
-  "pohádal jsem se o tom s Kubou"
+  "pohádal jsem se o tom s Kubou",
+  "to jsem nikdy neviděl",
+  "tohle jsem určitě neschválil",
+  "popírá co minule řekl/schválil"
 ];
