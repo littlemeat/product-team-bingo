@@ -26,7 +26,7 @@
       var indices = parsed.indices;
       var marks = parsed.marks;
       var won = parsed.won === true;
-      if ([3, 4, 5].indexOf(size) === -1) return null;
+      if ([3, 5].indexOf(size) === -1) return null;
       var total = size * size;
       if (!Array.isArray(indices) || indices.length !== total) return null;
       if (!Array.isArray(marks) || marks.length !== total) return null;
@@ -63,8 +63,7 @@
 
   function generateCard(size) {
     var total = size * size;
-    var hasFree = (size === 3 || size === 5);
-    var phraseCount = hasFree ? total - 1 : total;
+    var phraseCount = total - 1;
     var phrases = getPhrases();
 
     if (phrases.length < phraseCount) {
@@ -80,7 +79,7 @@
     var centerIdx = Math.floor(total / 2);
     var p = 0;
     for (var k = 0; k < total; k++) {
-      if (hasFree && k === centerIdx) {
+      if (k === centerIdx) {
         indices.push(-1);
         marks.push(true);
       } else {
