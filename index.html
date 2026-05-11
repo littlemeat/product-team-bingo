@@ -12,29 +12,99 @@
   <div class="blob blob-a" aria-hidden="true"></div>
   <div class="blob blob-b" aria-hidden="true"></div>
 
-  <button id="new-card" class="new-card-btn" type="button" aria-label="Nová karta">Nová karta</button>
-
   <header class="header">
     <h1 class="title">Product&nbsp;Team<br>Bingo</h1>
   </header>
 
   <main class="main">
-    <div class="controls">
-      <div class="size-selector" role="radiogroup" aria-label="Velikost karty">
-        <button class="size-btn" data-size="3" type="button" role="radio" aria-checked="false">3×3</button>
-        <button class="size-btn active" data-size="5" type="button" role="radio" aria-checked="true">5×5</button>
+    <!-- Landing view -->
+    <section id="view-landing" class="view" hidden>
+      <div class="landing-panel">
+        <h2 class="panel-title">Vytvoř hru</h2>
+        <div class="size-selector" role="radiogroup" aria-label="Velikost karty">
+          <button class="size-btn" data-size="3" type="button" role="radio" aria-checked="false">3×3</button>
+          <button class="size-btn" data-size="4" type="button" role="radio" aria-checked="false">4×4</button>
+          <button class="size-btn active" data-size="5" type="button" role="radio" aria-checked="true">5×5</button>
+        </div>
+        <button id="create-game-btn" class="primary-btn" type="button">Vytvořit hru</button>
       </div>
-    </div>
 
-    <div id="grid" class="grid grid-5" role="grid" aria-label="Bingo karta"></div>
+      <div class="landing-divider" aria-hidden="true">nebo</div>
+
+      <div class="landing-panel">
+        <h2 class="panel-title">Připoj se</h2>
+        <form id="join-form" class="join-form">
+          <input
+            id="join-code"
+            type="text"
+            inputmode="text"
+            autocomplete="off"
+            autocapitalize="none"
+            spellcheck="false"
+            maxlength="6"
+            placeholder="kód hry (např. ab12cd)"
+            aria-label="Kód hry"
+            required>
+          <button class="primary-btn" type="submit">Hrát</button>
+        </form>
+      </div>
+
+      <p class="solo-link"><a href="solo.html">Hrát sólo (offline) →</a></p>
+    </section>
+
+    <!-- Game view -->
+    <section id="view-game" class="view" hidden>
+      <div id="game-meta" class="game-meta">
+        <span id="game-code-label" class="game-code-label" aria-live="polite"></span>
+        <button id="copy-link-btn" class="ghost-btn" type="button">Zkopírovat odkaz</button>
+        <a href="#/" class="ghost-btn back-btn">← Zpět</a>
+      </div>
+
+      <div id="grid" class="grid" role="grid" aria-label="Bingo karta"></div>
+
+      <p id="game-status" class="game-status" aria-live="polite"></p>
+    </section>
+
+    <!-- Loading view -->
+    <section id="view-loading" class="view" hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <p id="loading-text" class="loading-text">Načítám…</p>
+    </section>
+
+    <!-- Error view -->
+    <section id="view-error" class="view" hidden>
+      <h2 class="panel-title">Něco se pokazilo</h2>
+      <p id="error-text" class="error-text"></p>
+      <a href="#/" class="primary-btn">← Zpět na začátek</a>
+    </section>
   </main>
 
+  <!-- Nickname prompt -->
+  <div id="nickname-dialog" class="dialog hidden" role="dialog" aria-modal="true" aria-labelledby="nickname-title">
+    <div class="dialog-card">
+      <h2 id="nickname-title" class="panel-title">Jak ti říkat?</h2>
+      <form id="nickname-form" class="nickname-form">
+        <input
+          id="nickname-input"
+          type="text"
+          maxlength="32"
+          autocomplete="off"
+          placeholder="přezdívka"
+          required>
+        <button class="primary-btn" type="submit">Hrát</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Win celebration overlay -->
   <div id="celebration" class="celebration hidden" aria-live="polite" aria-hidden="true">
-    <div class="celebration-text" aria-label="Bingo!">BINGO!</div>
+    <div id="celebration-text" class="celebration-text" aria-label="Bingo!">BINGO!</div>
     <div id="confetti" class="confetti" aria-hidden="true"></div>
   </div>
 
-  <script src="phrases.js"></script>
-  <script src="app.js"></script>
+  <!-- Toast -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script type="module" src="app.js"></script>
 </body>
 </html>
