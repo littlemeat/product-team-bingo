@@ -3,7 +3,6 @@ import { supabase } from "./supabase-client.js";
 const PALETTE = ['#FF006E', '#00F5FF', '#BFFF00', '#B5179E', '#FFD60A', '#FF6B35'];
 const SHAPES = ['circle', 'square', 'triangle', 'star'];
 const CONFETTI_COUNT = 80;
-const CELEBRATION_DURATION = 3500;
 const POLL_FALLBACK_MS = 5000;
 const TOAST_MS = 3200;
 
@@ -27,9 +26,16 @@ function parseRoute() {
 
 async function handleRoute() {
   teardownSession();
+  hideCelebration();
   const route = parseRoute();
   if (route.name === 'landing') return renderLanding();
   if (route.name === 'game') return enterGame(route.shortCode);
+}
+
+function hideCelebration() {
+  const overlay = document.getElementById('celebration');
+  overlay.classList.add('hidden');
+  overlay.setAttribute('aria-hidden', 'true');
 }
 
 window.addEventListener('hashchange', handleRoute);
@@ -506,18 +512,6 @@ function announceWinner(name, isSelf) {
 
   overlay.classList.remove('hidden');
   overlay.setAttribute('aria-hidden', 'false');
-
-  let dismissed = false;
-  const dismiss = () => {
-    if (dismissed) return;
-    dismissed = true;
-    overlay.classList.add('hidden');
-    overlay.setAttribute('aria-hidden', 'true');
-    overlay.removeEventListener('click', dismiss);
-    clearTimeout(timer);
-  };
-  overlay.addEventListener('click', dismiss);
-  const timer = setTimeout(dismiss, CELEBRATION_DURATION);
 }
 
 // ---------- Nickname prompt ----------
