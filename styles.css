@@ -500,6 +500,24 @@ main.main { position: relative; }
   background: var(--yellow);
   color: var(--black);
   box-shadow: 3px 3px 0 var(--black);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.game-code-label::after {
+  content: '📋';
+  margin-left: 6px;
+  font-size: 14px;
+}
+
+.game-code-label:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--black);
+}
+
+.game-code-label:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--black);
 }
 
 .ghost-btn {

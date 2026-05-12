@@ -303,8 +303,9 @@ async function fetchPlayerName(playerId) {
 // ---------- Render ----------
 
 function renderGameMeta() {
-  el('game-code-label').textContent = `Kód: ${session.shortCode}`;
-  el('copy-link-btn').onclick = async () => {
+  const label = el('game-code-label');
+  label.textContent = `Kód: ${session.shortCode}`;
+  label.onclick = async () => {
     const url = `${location.origin}${location.pathname}#/g/${session.shortCode}`;
     try {
       await navigator.clipboard.writeText(url);
