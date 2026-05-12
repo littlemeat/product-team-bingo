@@ -12,12 +12,14 @@ Dva režimy:
 ## Hraní (multiplayer)
 
 1. Otevři [`index.html`](index.html). Vyber velikost (3×3 / 4×4 / 5×5) a klikni **Vytvořit hru**.
-2. Kopíruj odkaz (`Zkopírovat odkaz` v horní liště) a pošli ho ostatním.
+2. Klikni na žlutý pill `KÓD: xxxxxx 📋` v horní liště — odkaz se zkopíruje, pošli ho ostatním.
 3. Každý si zadá přezdívku — dostane unikátní kartu s náhodným výběrem frází.
 4. Klikej na políčka. Stav se ukládá průběžně do DB i lokálně.
 5. Kdo první udělá bingo (řada, sloupec, diagonála), vyhrál — všichni vidí banner `🎉 [jméno] WON 🎉`.
 
-Po vyhrání se karta uzamkne pro všechny hráče. Refresh prohlížeče stav zachová (player_id + označení).
+Po vyhrání se karta uzamkne pro všechny hráče a banner zůstane přes obrazovku. Tlačítko **← Zpět** v horní liště je nad bannerem dostupné — odejdeš zpátky na landing. Refresh prohlížeče stav zachová (player_id + označení).
+
+> ⚠️ Identita hráče se ukládá do `localStorage` podle `short_code`. Dva taby ve stejném prohlížeči na stejnou hru tedy budou vidět **stejnou kartu** (stejný hráč ve dvou tabech). Pro testování dvou hráčů použij dvě zařízení nebo inkognito okno.
 
 ## Hraní (sólo offline)
 
