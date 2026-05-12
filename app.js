@@ -405,7 +405,7 @@ async function onCellClick(e) {
   try {
     const { error } = await supabase
       .from('marks')
-      .insert({ player_id: session.playerId, position: idx });
+      .insert({ player_id: session.playerId, position: idx, phrase_id: session.card[idx].id });
     if (error && !isDuplicateMarkError(error)) throw error;
   } catch (err) {
     console.error(err);
