@@ -463,19 +463,13 @@ main.main { position: relative; }
   margin: 6px 0 14px;
 }
 
-.solo-link {
-  text-align: center;
-  margin-top: 18px;
+.panel-blurb {
   font-family: 'Trebuchet MS', sans-serif;
-  font-size: 14px;
-}
-
-.solo-link a {
+  font-size: 15px;
   color: var(--black);
-  text-decoration: underline;
-  text-decoration-color: var(--pink);
-  text-decoration-thickness: 3px;
-  text-underline-offset: 4px;
+  opacity: 0.75;
+  margin-bottom: 14px;
+  line-height: 1.4;
 }
 
 .game-meta {
