@@ -1,0 +1,31 @@
+name: Supabase Keep-Alive
+
+# Free-tier Supabase projects pause after 7 days without activity. A simple
+# read request counts as activity. Pinging twice a week (Mon + Thu) keeps the
+# project awake with comfortable headroom under the 7-day window.
+#
+# Publishable key is safe to commit (security is enforced by RLS, not by
+# hiding the key) — same key as in config.js.
+
+on:
+  schedule:
+    - cron: '0 12 * * 1,4'  # Mondays + Thursdays at 12:00 UTC
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        env:
+          SUPABASE_URL: https://zrtelsojvbkuugtbhsvl.supabase.co
+          SUPABASE_PUBLISHABLE_KEY: sb_publishable_31GnVukn18yPC2G_eOW6CA_jXoMeMIf
+        run: |
+          set -euo pipefail
+          response=$(curl -sSfw "\nHTTP %{http_code}\n" \
+            "$SUPABASE_URL/rest/v1/phrases?select=count" \
+            -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_PUBLISHABLE_KEY" \
+            -H "Prefer: count=exact" \
+            -H "Range: 0-0")
+          echo "$response"
