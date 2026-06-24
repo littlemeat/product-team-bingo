@@ -6,6 +6,24 @@ const CONFETTI_COUNT = 80;
 const POLL_FALLBACK_MS = 5000;
 const TOAST_MS = 3200;
 
+// Free-tier Supabase projects pause after extended inactivity. When that happens
+// the project ref's DNS stops resolving and supabase-js surfaces a fetch failure.
+// Detect that specifically so we can tell the user what to actually do.
+const PAUSED_MESSAGE = 'Databáze spí (Supabase free tier 💤). Napiš Marii ať ji probudí v dashboardu — pak zkus znovu za ~30 s.';
+
+function isProjectPausedError(e) {
+  if (!e) return false;
+  const msg = ((e.message || '') + ' ' + ((e.cause && e.cause.message) || '')).toLowerCase();
+  return (
+    msg.includes('failed to fetch') ||
+    msg.includes('networkerror') ||
+    msg.includes('load failed') ||
+    msg.includes('could not resolve') ||
+    msg.includes('network request failed') ||
+    msg.includes('fetch failed')
+  );
+}
+
 const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 let session = null;
@@ -84,7 +102,7 @@ async function createGame(size) {
     window.location.hash = `#/g/${data}`;
   } catch (e) {
     console.error(e);
-    toast('Nepodařilo se vytvořit hru. Zkus to znovu.');
+    toast(isProjectPausedError(e) ? PAUSED_MESSAGE : 'Nepodařilo se vytvořit hru. Zkus to znovu.');
     btn.disabled = false;
     btn.textContent = original;
   }
@@ -181,7 +199,8 @@ async function restoreSession(shortCode, stored) {
 function handleJoinError(e, shortCode) {
   const msg = (e && e.message) || '';
   let text = 'Něco se pokazilo. Zkus to za chvíli.';
-  if (msg.includes('game_not_found')) text = `Hra s kódem ${shortCode} neexistuje.`;
+  if (isProjectPausedError(e)) text = PAUSED_MESSAGE;
+  else if (msg.includes('game_not_found')) text = `Hra s kódem ${shortCode} neexistuje.`;
   else if (msg.includes('game_ended')) text = 'Tahle hra už skončila.';
   else if (msg.includes('not_enough_phrases')) text = 'V databázi je málo frází pro tuhle velikost karty.';
   showError(text);
@@ -414,7 +433,7 @@ async function onCellClick(e) {
     btn.setAttribute('aria-pressed', 'false');
     btn.disabled = false;
     renderStatus();
-    toast('Označení se nepodařilo. Zkus to znovu.');
+    toast(isProjectPausedError(err) ? PAUSED_MESSAGE : 'Označení se nepodařilo. Zkus to znovu.');
     return;
   }
 
@@ -480,7 +499,7 @@ async function tryClaimWin() {
     }
   } catch (e) {
     console.error(e);
-    toast('Bingo detekováno, ale nahlášení selhalo. Zkus to ještě.');
+    toast(isProjectPausedError(e) ? PAUSED_MESSAGE : 'Bingo detekováno, ale nahlášení selhalo. Zkus to ještě.');
   }
 }
 
