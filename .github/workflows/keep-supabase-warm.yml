@@ -1,0 +1,63 @@
+name: Keep Supabase warm
+
+# Denní write-ping do public.keepalive_ping() (viz supabase/migrations/*_keepalive.sql).
+# Read-only pingy detektor pauz ignoruje — potřebujeme skutečný zápis.
+#
+# Publishable klíč je bezpečné vystavit v YAML (chrání ho RLS), stejný klíč je
+# v config.js. NIKDY sem nedávej service_role.
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # každý den 07:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write  # kvůli fallback keepalive commitu (GitHub vypíná neaktivní crony po 60 dnech)
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write-ping Supabase (RPC keepalive_ping + GET fallback)
+        env:
+          SUPABASE_URL: https://zrtelsojvbkuugtbhsvl.supabase.co
+          SUPABASE_KEY: sb_publishable_31GnVukn18yPC2G_eOW6CA_jXoMeMIf
+        run: |
+          rpc=$(curl -s -o /tmp/rpc -w "%{http_code}" -X POST \
+            -H "apikey: $SUPABASE_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{}' \
+            "$SUPABASE_URL/rest/v1/rpc/keepalive_ping")
+          echo "RPC keepalive_ping: HTTP $rpc — $(cat /tmp/rpc)"
+          if [ "$rpc" = "404" ]; then
+            echo "::warning::keepalive_ping() v DB neexistuje — spusť migraci supabase/migrations/*_keepalive.sql"
+          fi
+
+          get=$(curl -s -o /tmp/get -w "%{http_code}" \
+            -H "apikey: $SUPABASE_KEY" \
+            "$SUPABASE_URL/rest/v1/phrases?select=count&limit=1")
+          echo "REST fallback read: HTTP $get"
+
+          if [ "$rpc" != "200" ] && [ "$get" != "200" ]; then
+            echo "::error::Supabase nedostupná (RPC $rpc, GET $get) — projekt nejspíš spí, resume z dashboardu"
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Keepalive commit when repo idles too long
+        run: |
+          last_commit=$(git log -1 --format=%ct)
+          now=$(date +%s)
+          days=$(( (now - last_commit) / 86400 ))
+          echo "Days since last commit: $days"
+          if [ "$days" -ge 21 ]; then
+            git config user.name "keep-warm-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git commit --allow-empty -m "chore: keepalive — GitHub vypíná neaktivní crony po 60 dnech"
+            git push
+            echo "Keepalive commit pushed."
+          else
+            echo "Repo is active enough, no commit needed."
+          fi
