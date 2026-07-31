@@ -9,7 +9,7 @@ const TOAST_MS = 3200;
 // Free-tier Supabase projects pause after extended inactivity. When that happens
 // the project ref's DNS stops resolving and supabase-js surfaces a fetch failure.
 // Detect that specifically so we can tell the user what to actually do.
-const PAUSED_MESSAGE = 'Databáze spí (Supabase free tier 💤). Napiš Marii ať ji probudí v dashboardu — pak zkus znovu za ~30 s.';
+const PAUSED_MESSAGE = 'Databáze spí (Supabase free tier 💤). Někdo s přístupem do Supabase musí projekt probudit (dashboard → Resume) — pak to zkus znovu za ~30 s. Detaily v README.';
 
 function isProjectPausedError(e) {
   if (!e) return false;
