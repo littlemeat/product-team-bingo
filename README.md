@@ -195,7 +195,9 @@ Co je potřeba mít, aby se dala appka udržovat:
 | GitHub repo | [`littlemeat/product-team-bingo`](https://github.com/littlemeat/product-team-bingo) (public) | kód, deploy, keepalive cron |
 | Supabase projekt | `zrtelsojvbkuugtbhsvl`, organizace **HSDC** | DB, fráze, resume při pauze |
 
-Obojí je vázané na jeden účet. **Při předání projektu je potřeba přidat dalšího člověka do obou** — jinak nikdo nemůže probudit pauznutou DB ani editovat fráze:
+Obojí visí na **osobních** účtech (GitHub `littlemeat` je user account, Supabase organizace HSDC obsahuje jen osobní projekty) — appka tedy patří vlastníkovi účtu, ne firmě, a přesun mezi zaměstnáními ji nijak neohrozí.
+
+Naopak to znamená, že **pokud má appku dál používat tým bez vlastníka účtu, musí se do obou přidat další člověk** — jinak nikdo nemůže probudit pauznutou DB ani editovat fráze:
 
 - GitHub: Settings → Collaborators → Add people (nebo repo přesunout do organizace).
 - Supabase: Organization settings → Team → Invite member (organizace HSDC).
